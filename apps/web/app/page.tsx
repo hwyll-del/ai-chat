@@ -13,15 +13,16 @@ import { Label } from '@repo/ui/label'
 import { Separator } from '@repo/ui/separator'
 import { TailwindDemo } from '@repo/ui/tailwind-demo'
 import { hc, type InferResponseType } from 'hono/client'
+import { getWebServerEnv } from '../src/env.server'
+import { WebEnvBadge } from '../src/web-env-badge'
 
-const apiBaseUrl = process.env.API_BASE_URL ?? 'http://127.0.0.1:8787'
 const rpcPayload: PingRequest = { name: 'web' }
 
 type PingRpcResponse = InferResponseType<
   ReturnType<typeof hc<AppType>>['rpc']['system']['ping']['$post']
 >
 
-async function getPingResponse(): Promise<PingRpcResponse> {
+async function getPingResponse(apiBaseUrl: string): Promise<PingRpcResponse> {
   const client = hc<AppType>(apiBaseUrl)
 
   try {
@@ -46,7 +47,8 @@ async function getPingResponse(): Promise<PingRpcResponse> {
 }
 
 export default async function Home() {
-  const pingResult = await getPingResponse()
+  const env = getWebServerEnv()
+  const pingResult = await getPingResponse(env.API_BASE_URL)
   const requestBody = JSON.stringify(rpcPayload, null, 2)
   const responseBody = JSON.stringify(pingResult, null, 2)
 
@@ -86,6 +88,17 @@ export default async function Home() {
                 <h2 className="text-2xl font-semibold tracking-tight text-content-primary">
                   Shared request and response contract
                 </h2>
+              </div>
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2 text-xs text-content-tertiary">
+                  <span className="rounded-full border border-border-default px-3 py-1">
+                    server {env.APP_ENV}
+                  </span>
+                  <span className="rounded-full border border-border-default px-3 py-1">
+                    {env.API_BASE_URL}
+                  </span>
+                </div>
+                <WebEnvBadge />
               </div>
               <div className="flex flex-wrap gap-2 text-xs text-content-tertiary">
                 <span className="rounded-full border border-border-default px-3 py-1">
