@@ -14,7 +14,10 @@
     "@repo/ui": "workspace:*",
     "next": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "@repo/api": "workspace:*",
+    "@repo/contracts": "workspace:*",
+    "hono": "^4.13.7"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

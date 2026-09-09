@@ -9,7 +9,7 @@
     "check-types": "turbo run check-types",
     "dev:web": "turbo run dev --filter=web",
     "dev:admin": "turbo run dev --filter=admin",
-    "dev:api": "turbo run dev --filter=api"
+    "dev:api": "turbo run dev --filter=@repo/api"
   },
   "devDependencies": {
     "prettier": "3.9.6",

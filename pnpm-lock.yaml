@@ -54,6 +54,9 @@ catalogs:
     typescript:
       specifier: 7.0.2
       version: 7.0.2
+    zod:
+      specifier: ^4.1.12
+      version: 4.4.3
 
 importers:
 
@@ -114,19 +117,37 @@ importers:
 
   apps/api:
     dependencies:
+      '@repo/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       hono:
         specifier: ^4.13.7
         version: 4.13.7
     devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
       wrangler:
         specifier: ^4.110.0
         version: 4.129.0
 
   apps/web:
     dependencies:
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
+      '@repo/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      hono:
+        specifier: ^4.13.7
+        version: 4.13.7
       next:
         specifier: 'catalog:'
         version: 16.3.4(@babel/core@8.0.1)(@types/node@26.4.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -161,6 +182,19 @@ importers:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.3
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+
+  packages/contracts:
+    dependencies:
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
