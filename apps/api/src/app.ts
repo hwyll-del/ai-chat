@@ -3,6 +3,7 @@ import {
   buildFailure,
 } from '@repo/contracts'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { HTTPException } from 'hono/http-exception'
 import { createMeta } from './lib/response'
 import routes from './routes'
@@ -25,6 +26,18 @@ class AppError extends Error {
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
+
+app.use(
+  '*',
+  cors({
+    origin: [
+      'http://localhost:3005',
+      'http://127.0.0.1:3005',
+      'http://localhost:3006',
+      'http://127.0.0.1:3006',
+    ],
+  }),
+)
 
 app.onError((error, c) => {
   const meta = createMeta()

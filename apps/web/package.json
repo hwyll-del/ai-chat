@@ -18,7 +18,8 @@
     "@repo/api": "workspace:*",
     "@repo/contracts": "workspace:*",
     "hono": "^4.13.7",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "@tanstack/react-query": "catalog:"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
