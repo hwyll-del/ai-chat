@@ -1,13 +1,6 @@
-import type { InferResponseType } from 'hono/client'
-import { createApiClient } from '../client'
+import type { HealthResponse } from '@repo/contracts'
+import { http } from '../../http'
 
-export type HealthApiResponse = InferResponseType<
-  ReturnType<typeof createApiClient>['health']['$get']
->
-
-export async function getHealth(): Promise<HealthApiResponse> {
-  const client = createApiClient()
-  const response = await client.health.$get()
-
-  return response.json()
+export function getHealth() {
+  return http.get<HealthResponse>('/health')
 }
