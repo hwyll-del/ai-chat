@@ -1,17 +1,17 @@
 import {
   BizCode,
-  PingRequestSchema,
   buildFailure,
-  buildSuccess,
-  type ApiMeta,
 } from '@repo/contracts'
-import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
-import type { ZodError } from 'zod'
-import { getApiEnv } from './env'
+import { createMeta } from './lib/response'
+import routes from './routes'
 
 type AppErrorStatus = 400 | 401 | 403 | 404 | 409 | 422 | 500 | 504
+
+type Bindings = {
+  APP_ENV: 'development' | 'test' | 'production'
+}
 
 class AppError extends Error {
   constructor(
@@ -24,18 +24,7 @@ class AppError extends Error {
   }
 }
 
-const app = new Hono<{
-  Bindings: {
-    APP_ENV: 'development' | 'test' | 'production'
-  }
-}>()
-
-function createMeta(): ApiMeta {
-  return {
-    requestId: crypto.randomUUID(),
-    timestamp: new Date().toISOString(),
-  }
-}
+const app = new Hono<{ Bindings: Bindings }>()
 
 app.onError((error, c) => {
   const meta = createMeta()
@@ -81,43 +70,7 @@ app.notFound((c) => {
   )
 })
 
-const routes = app
-  .get('/health', (c) => {
-    const env = getApiEnv(c.env)
-
-    return c.json(buildSuccess({ service: 'api', env: env.APP_ENV }, createMeta()))
-  })
-  .post(
-    '/rpc/system/ping',
-    zValidator('json', PingRequestSchema, (result, c) => {
-      if (result.success) {
-        return
-      }
-
-      return c.json(
-        buildFailure(
-          {
-            code: BizCode.COMMON_INVALID_REQUEST,
-            message: 'Invalid request payload',
-            details: (result.error as ZodError).flatten(),
-          },
-          createMeta(),
-        ),
-        400,
-      )
-    }),
-    (c) => {
-      const payload = c.req.valid('json')
-      const env = getApiEnv(c.env)
-
-      return c.json(
-        buildSuccess(
-          { service: 'api', message: 'pong, ' + payload.name, env: env.APP_ENV },
-          createMeta(),
-        ),
-      )
-    },
-  )
+app.route('/', routes)
 
 export type AppType = typeof routes
 
