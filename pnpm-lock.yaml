@@ -57,6 +57,9 @@ catalogs:
     typescript:
       specifier: 7.0.2
       version: 7.0.2
+    uuidv7:
+      specifier: ^1.0.2
+      version: 1.2.1
     zod:
       specifier: ^4.1.12
       version: 4.4.3
@@ -92,6 +95,9 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.8(react@19.2.8)
+      uuidv7:
+        specifier: 'catalog:'
+        version: 1.2.1
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -135,6 +141,9 @@ importers:
       hono:
         specifier: ^4.13.7
         version: 4.13.7
+      uuidv7:
+        specifier: 'catalog:'
+        version: 1.2.1
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -175,6 +184,9 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.8(react@19.2.8)
+      uuidv7:
+        specifier: 'catalog:'
+        version: 1.2.1
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -2158,6 +2170,10 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  uuidv7@1.2.1:
+    resolution: {integrity: sha512-4kPkK3/XTQW9Hbm4CaqfICn+kY9LJtDVEOfgsRRra/+n2Ofg4NqzRFceAkxvQ/Ud/6BpHOPzj8cirqM7TzTN5Q==}
+    hasBin: true
+
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
@@ -3803,6 +3819,8 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  uuidv7@1.2.1: {}
 
   which@2.0.2:
     dependencies:
